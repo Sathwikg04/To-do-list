@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import TodoForm from "./TodoForm";
 import Todo from "./Todo";
 import {v4 as uuidv4} from 'uuid';
@@ -6,7 +6,18 @@ import EditTodoForm from './EditTodoForm';
 uuidv4();
 
 const TodoWrapper = () => {
-    const [todos, setTodos] = React.useState([])
+
+    const getLocalItems = () => {
+        let list = localStorage.getItem('list')
+        console.log(list);
+        if (list) {
+            return JSON.parse(list)
+        }
+        return [];
+    }
+
+    const [todos, setTodos] = useState(getLocalItems())
+
 
     const addTodo = todo => {
         setTodos([...todos, {
@@ -36,13 +47,19 @@ const TodoWrapper = () => {
         setTodos(todos.map(todo => todo.id===id ? {...todo, task, isEditing: !todo.isEditing}: todo))
     }
 
+    useEffect(() => {
+        localStorage.setItem('list', JSON.stringify(todos))
+      },[todos])
+
   return (
     <div className='TodoWrapper'>
         <h1>Things to do Today</h1>
       <TodoForm addTodo={addTodo}/>
       <div className='EditTodoForm'>
-        {todos.map((todo, index) => (
-        todo.isEditing ? (
+      {/* <p>Incomplete Tasks</p> */}
+      {todos.map((todo, index) => (
+        !todo.completed ? 
+        (todo.isEditing ? (
             <EditTodoForm  editTodo={editTask} task={todo}/>
         ) : (
             <Todo task={todo} 
@@ -50,7 +67,23 @@ const TodoWrapper = () => {
         toggleComplete={toggleComplete}
         deleteTodo={deleteTodo}
         editTodo={editTodo}/>
-        )
+        ))
+        : null
+      ))}
+
+      {/* <p>Completed Tasks</p> */}
+      {todos.map((todo, index) => (
+        todo.completed ? 
+        (todo.isEditing ? (
+            <EditTodoForm  editTodo={editTask} task={todo}/>
+        ) : (
+            <Todo task={todo} 
+        key={index.id}
+        toggleComplete={toggleComplete}
+        deleteTodo={deleteTodo}
+        editTodo={editTodo}/>
+        ))
+        : null
       ))}
       </div>
     </div>

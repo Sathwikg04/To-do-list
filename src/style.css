@@ -3,7 +3,7 @@
 }
 
 body{
-  background-color: #06d6a0;
+  background-color: #a8dadc;
   display: flex;
   justify-content: center;
 }
@@ -22,7 +22,7 @@ body{
   display: flex;
   min-width: 300px;
   min-height: 55px;
-  background-color: #e9ed96;
+  background-color: #f1faee;
   align-items: center;
   justify-content: space-between;
   padding: 2px 10px;
@@ -41,8 +41,8 @@ body{
 }
 
 .todo-btn{
-  color: #f8f9fa;
-  background-color: #06d6a0;
+  color: black;
+  background-color: #a8dadc;
   min-height: 30px;
   border-radius: 5px;
   padding: 10px 10px;
@@ -66,6 +66,6 @@ body{
 }
 
 .completed{
-  color: red;
+  color: #e63946;
   text-decoration:line-through ;
 }
